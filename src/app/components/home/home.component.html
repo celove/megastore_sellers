@@ -1,0 +1,71 @@
+<div class="card">
+    <div class="col-12 md:col-9 drag-column product-list">
+        <div *ngFor="let product of availableProducts">
+            <div 
+                class="product-item" 
+                pDraggable="products" 
+                (onDragStart)="dragStart(product)" 
+                (onDragEnd)="dragEnd()">
+                    <div class="image-container">
+                        <img 
+                            src="https://primefaces.org/cdn/primeng/images/demo/product/{{ product.image }}" 
+                            [alt]="product.name" 
+                            class="product-image" />
+                    </div>
+                    <div class="product-list-detail">
+                        <h5 class="mb-2">
+                            {{product.name}}
+                        </h5>
+                        <i class="pi pi-tag product-category-icon"></i>
+                        <!-- <span class="product-category">
+                            {{product.category}}
+                        </span> -->
+                        </div>
+                        <div class="product-list-action">
+                        <h6 class="mb-2">
+                            {{product.price}}
+                        </h6>
+                        <p-tag 
+                            [value]="product.inventoryStatus" 
+                            [severity]="getSeverity(product.inventoryStatus)" />
+                    </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 md:col-3 drop-column" pDroppable="products" (onDrop)="drop()">
+    <p-table [value]="selectedProducts">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>
+                    ID
+                </th>
+                <th>
+                    Category
+                </th>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Price
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-product>
+            <tr>
+                <td>
+                    {{product.id}}
+                </td>
+                <td>
+                    {{product.category}}
+                </td>
+                <td>
+                    {{product.name}}
+                </td>
+                <td>
+                    {{product.price}}
+                </td>
+            </tr>
+            </ng-template>
+        </p-table>
+    </div>
+</div>
