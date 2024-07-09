@@ -1,0 +1,165 @@
+<p-fieldset legend="Gestão da Loja">
+        <h3>Logo</h3>
+        <p-fileUpload name="myfile[]" url="https://www.primefaces.org/cdn/api/upload.php" [multiple]="true" accept="image/*" maxFileSize="1000000" (onUpload)="onTemplatedUpload()" (onSelect)="onSelectedFiles($event)">
+            <ng-template pTemplate="header" let-files let-chooseCallback="chooseCallback" let-clearCallback="clearCallback" let-uploadCallback="uploadCallback">
+                <div class="flex flex-wrap justify-content-between align-items-center flex-1 gap-2">
+                    <div class="flex gap-2">
+                        <p-button (onClick)="choose($event, chooseCallback)" icon="pi pi-images" [rounded]="true" [outlined]="true" />
+                        <p-button (onClick)="uploadEvent(uploadCallback)" icon="pi pi-cloud-upload" [rounded]="true" [outlined]="true" severity="success" [disabled]="!files || files.length === 0" />
+                        <p-button (onClick)="clearCallback()" icon="pi pi-times" [rounded]="true" [outlined]="true" severity="danger" [disabled]="!files || files.length === 0" />
+                    </div>
+                    <p-progressBar [value]="totalSizePercent" [showValue]="false" styleClass="md:w-20rem h-1rem w-full md:ml-auto" [ngClass]="{ 'exceeded-progress-bar': totalSizePercent > 100 }">
+                        <span class="white-space-nowrap">{{ totalSize }}B / 1Mb</span>
+                    </p-progressBar>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="content" let-files let-uploadedFiles="uploadedFiles" let-removeFileCallback="removeFileCallback" let-removeUploadedFileCallback="removeUploadedFileCallback">
+                <div *ngIf="files?.length > 0">
+                    <h5>Pending</h5>
+                    <div class="flex flex-wrap p-0 sm:p-5 gap-5">
+                        <div *ngFor="let file of files; let i = index" class="card m-0 px-6 flex flex-column border-1 surface-border align-items-center gap-3">
+                            <div>
+                                <img role="presentation" [alt]="file.name" [src]="file.objectURL" width="100" height="50" />
+                            </div>
+                            <span class="font-semibold">{{ file.name }}</span>
+                            <div>{{ formatSize(file.size) }}</div>
+                            <p-badge value="Pending" severity="warning" />
+                            <p-button icon="pi pi-times" (click)="onRemoveTemplatingFile($event, file, removeFileCallback, i)" [outlined]="true" [rounded]="true" severity="danger" />
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="uploadedFiles?.length > 0">
+                    <h5>Completed</h5>
+                    <div class="flex flex-wrap p-0 sm:p-5 gap-5">
+                        <div *ngFor="let file of uploadedFiles; let i = index" class="card m-0 px-6 flex flex-column border-1 surface-border align-items-center gap-3">
+                            <div>
+                                <img role="presentation" [alt]="file.name" [src]="file.objectURL" width="100" height="50" />
+                            </div>
+                            <span class="font-semibold">{{ file.name }}</span>
+                            <div>{{ formatSize(file.size) }}</div>
+                            <p-badge value="Completed" class="mt-3" severity="success" />
+                            <p-button icon="pi pi-times" (onClick)="removeUploadedFileCallback(i)" [outlined]="true" [rounded]="true" severity="danger" />
+                        </div>
+                    </div>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="file"> </ng-template>
+            <ng-template pTemplate="empty">
+                <div class="flex align-items-center justify-content-center flex-column">
+                    <i class="pi pi-cloud-upload border-2 border-circle p-5 text-8xl text-400 border-400"></i>
+                    <p class="mt-4 mb-0">Drag and drop files to here to upload.</p>
+                </div>
+            </ng-template>
+        </p-fileUpload>
+        <br>
+        <br>
+        <form #userForm="ngForm" (ngSubmit)="submitForm()">
+        <p-panel header="Informações Principais" class="p-fluid">
+            <div class="p-formgrid grid">
+                <div class="field col">
+                    <label htmlFor="street">Nome da Loja</label>
+                    <input pInputText [disabled]="fieldsDisabled" [(ngModel)]="user.address.street" id="street"
+                        name="street" type="text" required />
+                    <div *ngIf="userForm.controls['street']?.invalid && (userForm.controls['street']?.dirty || userForm.controls['street']?.touched)"
+                        class="p-error">
+                        <small *ngIf="userForm.controls['street'].errors?.['required']">Rua é obrigatória.</small>
+                    </div>
+                </div>
+                <div class="field col">
+                    <label htmlFor="telefone">Telefone</label>
+                    <input pInputText [disabled]="fieldsDisabled" [(ngModel)]="user.phone" id="phone" name="phone"
+                        type="text" required mask="(00) 00000-0000" />
+                    <div *ngIf="userForm.controls['phone']?.invalid && (userForm.controls['phone']?.dirty || userForm.controls['phone']?.touched)"
+                        class="p-error">
+                        <small *ngIf="userForm.controls['phone'].errors?.['required']">Telefone é obrigatório.</small>
+                    </div>
+                </div>
+            </div>
+            
+            <p-panel header="Endereço">
+                <div class="p-formgrid grid">
+                    <div class="field col">
+                        <label htmlFor="cep">CEP</label>
+                        <input pInputText [disabled]="fieldsDisabled" [(ngModel)]="user.address.cep" id="cep" name="cep"
+                            type="text" (blur)="onBlurCep(user.address.cep)" required mask="00000-000" />
+                        <div *ngIf="userForm.controls['cep']?.invalid && (userForm.controls['cep']?.dirty || userForm.controls['cep']?.touched)"
+                            class="p-error">
+                            <small *ngIf="userForm.controls['cep'].errors?.['required']">CEP é obrigatório.</small>
+                        </div>
+                    </div>
+                    <div class="field col">
+                        <label htmlFor="street">Rua</label>
+                        <input pInputText [disabled]="fieldsDisabled" [(ngModel)]="user.address.street" id="street"
+                            name="street" type="text" required />
+                        <div *ngIf="userForm.controls['street']?.invalid && (userForm.controls['street']?.dirty || userForm.controls['street']?.touched)"
+                            class="p-error">
+                            <small *ngIf="userForm.controls['street'].errors?.['required']">Rua é obrigatória.</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-formgrid grid">
+                    <div class="field col">
+                        <label htmlFor="number">Numero</label>
+                        <input pInputText [disabled]="fieldsDisabled" [(ngModel)]="user.address.number" id="number"
+                            name="number" type="text" required/>
+                        <div *ngIf="userForm.controls['number']?.invalid && (userForm.controls['number']?.dirty || userForm.controls['number']?.touched)"
+                            class="p-error">
+                            <small *ngIf="userForm.controls['number'].errors?.['required']">Número é obrigatório.</small>
+                        </div>
+                    </div>
+                    <div class="field col">
+                        <label htmlFor="complement">Complemento</label>
+                        <input pInputText [disabled]="fieldsDisabled" [(ngModel)]="user.address.complement" id="complement"
+                            name="complement" type="text" />
+                    </div>
+                </div>
+                <div class="p-formgrid grid">
+                    <div class="field col">
+                        <label htmlFor="neighborhood">Bairro</label>
+                        <input pInputText [disabled]="fieldsDisabled" [(ngModel)]="user.address.neighborhood"
+                            id="neighborhood" name="neighborhood" type="text" required />
+                        <div *ngIf="userForm.controls['neighborhood']?.invalid && (userForm.controls['neighborhood']?.dirty || userForm.controls['neighborhood']?.touched)"
+                            class="p-error">
+                            <small *ngIf="userForm.controls['neighborhood'].errors?.['required']">Bairro é
+                                obrigatório.</small>
+                        </div>
+                    </div>
+                    <div class="field col">
+                        <label htmlFor="city">Cidade</label>
+                        <input pInputText [disabled]="fieldsDisabled" [(ngModel)]="user.address.city" id="city" name="city"
+                            type="text" required />
+                        <div *ngIf="userForm.controls['city']?.invalid && (userForm.controls['city']?.dirty || userForm.controls['city']?.touched)"
+                            class="p-error">
+                            <small *ngIf="userForm.controls['city'].errors?.['required']">Cidade é obrigatório.</small>
+                        </div>
+                    </div>
+                    <div class="field col">
+                        <label htmlFor="state">Estado</label>
+                        <input pInputText [disabled]="fieldsDisabled" [(ngModel)]="user.address.state" id="state"
+                            name="state" type="text" required />
+                        <div *ngIf="userForm.controls['state']?.invalid && (userForm.controls['state']?.dirty || userForm.controls['state']?.touched)"
+                            class="p-error">
+                            <small *ngIf="userForm.controls['state'].errors?.['required']">Estado é obrigatório.</small>
+                        </div>
+                    </div>
+                </div>
+            </p-panel>
+        </p-panel>
+    </form>
+
+    <br>
+    <br>
+    <p-panel header="Sistema">
+        <div class="p-formgrid grid p-fluid">
+            <div class="field col">
+                <label htmlFor="number">Tema</label>
+                <p-dropdown 
+                    [options]="themes" 
+                    [(ngModel)]="selectedtheme" 
+                    optionLabel="name" 
+                    placeholder="Selecione um Tema" />
+
+            </div>
+        </div>
+    </p-panel>
+</p-fieldset>

@@ -38,30 +38,35 @@ export class HeaderComponent {
         routerLink: ['/home']
       },
       {
-        label: 'User Management',
-        icon: 'pi pi-fw pi-users',
-        routerLink: ['/dashboard-user']
+        label: 'Gestão da Loja',
+        icon: 'pi pi-fw pi-shop',
+        routerLink: ['/store-management']
       },
       {
-        label: 'Product Management',
-        icon: 'pi pi-fw pi-barcode',
-        routerLink: ['/contact']
-      },
-      {
-        label: 'Settings',
-        icon: 'pi pi-fw pi-cog',
+        label: 'Gestão de Estoque',
+        icon: 'pi pi-fw pi-warehouse',
         items: [
           {
-            label: 'Profile',
-            icon: 'pi pi-fw pi-user-edit',
+            label: 'Cadastro de Produtos',
+            icon: 'pi pi-fw pi-barcode',
             routerLink: ['/profile']
           },
           {
-            label: 'Security',
-            icon: 'pi pi-fw pi-lock',
+            label: 'Estoque',
+            icon: 'pi pi-fw pi-truck',
             routerLink: ['/security']
           }
         ]
+      },
+      {
+        label: 'Recomendados / Destaques',
+        icon: 'pi pi-fw pi-cart-plus',
+        routerLink: ['/contact']
+      },
+      {
+        label: 'Vendas',
+        icon: 'pi pi-fw pi-dollar',
+        routerLink: ['/contact']
       }
     ];
   }

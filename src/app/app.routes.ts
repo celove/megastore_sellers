@@ -4,6 +4,7 @@ import { HomeComponent } from './components/home/home.component';
 // import { AuthGuard } from './guards/auth.guard';
 import { CreateUserComponent } from './components/create-user/create-user.component';
 import { UserDashboardComponent } from './components/dashboards/user-dashboard/user-dashboard.component';
+import { StoreManagementComponent } from './components/store-management/store-management.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -15,6 +16,6 @@ export const routes: Routes = [
         path: 'user/:id', component: CreateUserComponent
     },
     {
-        path: 'dashboard-user', component: UserDashboardComponent
+        path: 'store-management', component: StoreManagementComponent
     }
 ];

@@ -19,7 +19,7 @@ export class AuthService {
   jwtHelper = inject(JwtHelperService);
 
   login(username: string, password: string): Observable<any> {
-    return this.http.post<any>(this.authUrl + '/login', { username, password }, {
+    return this.http.post<any>(this.authUrl + '/login/seller', { username, password }, {
       headers: {
         'Content-Type': 'application/json'
       }

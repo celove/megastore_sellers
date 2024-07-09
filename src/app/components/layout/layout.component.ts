@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import { HeaderComponent } from './header/header.component';
-import { RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 import { ToastModule } from 'primeng/toast';
 import { AuthService } from '../../services/auth/auth.service';
 import { CommonModule } from '@angular/common';
@@ -17,6 +17,7 @@ import { LoadingService } from '../../services/auth/loading.service';
 export class LayoutComponent {
   authService = inject(AuthService);
   loadingService = inject(LoadingService);
+  route = inject(Router);
   isLoading = false;
 
   constructor(private cdr: ChangeDetectorRef) {}
