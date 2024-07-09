@@ -1,22 +1,13 @@
 <p-menubar>
     <ng-template pTemplate="start">
-        <button type="button" pButton icon="pi pi-bars" (click)="toggleSidebar()" class="p-mr-2"><img src="assets/logo.png" alt="logo" height="160"></button>
-        
+        <p-button icon="pi pi-bars" [rounded]="true" [text]="true" (click)="toggleSidebar()" size="large"/>
+        <h1 class="megastore-title">MEGASTORE</h1>
       </ng-template>
-    <ng-template pTemplate="end">
-      <button pButton type="button" label="Logout" icon="pi pi-power-off" class="p-button-danger"></button>
+    <ng-template pTemplate="end" class="end-buttons">
+      <button pButton type="button" [rounded]="true" [text]="true" icon="pi pi-angle-left" class="p-button-contrast" outlined="true" (click)="back()"></button>
+      
+      <button pButton type="button" [rounded]="true" [text]="true" icon="pi pi-power-off" class="p-button-danger" (click)="logout()"></button>
     </ng-template>
-    <ul>
-      <li pMenuItem>
-        <a href="#">Home</a>
-      </li>
-      <li pMenuItem>
-        <a href="#">About</a>
-      </li>
-      <li pMenuItem>
-        <a href="#">Contact</a>
-      </li>
-    </ul>
   </p-menubar>
   <p-sidebar [(visible)]="sidebarVisible" [modal]="true" position="left" styleClass="ui-sidebar-sm">
     <p-panelMenu [model]="sideMenuItems"></p-panelMenu>

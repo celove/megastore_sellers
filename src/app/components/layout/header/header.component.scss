@@ -1,3 +1,28 @@
 .ui-sidebar-sm {
     width: 250px;
   }
+
+
+  .logo-header {
+    margin: 16px;
+  }
+
+  :host ::ng-deep .p-menubar-start {
+    display: flex;
+  }
+
+  .ng-star-inserted {
+    align-self: center;
+  }
+
+  :host ::ng-deep .p-menubar-end {
+    padding: 16px;
+  } 
+
+  :host ::ng-deep .p-button-outlined {
+      margin-right: 16px;
+  }
+
+  .megastore-title {
+    margin-left: 16px;
+  }

@@ -1,2 +1,4 @@
-<app-header></app-header>
-<app-home></app-home>
+<app-header *ngIf="authService.isAuthenticated()"></app-header>
+<p-progressBar *ngIf="isLoading" mode="indeterminate" [style]="{ height: '1.5px' }" />
+<p-toast />
+<router-outlet />
