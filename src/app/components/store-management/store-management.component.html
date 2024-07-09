@@ -143,7 +143,20 @@
                         </div>
                     </div>
                 </div>
+                
             </p-panel>
+            <div class="form-buttons p-formgrid grid">
+                <div class="field col">
+                    <button pButton *ngIf="fieldsDisabled" type="button" label="Editar" (click)="edit()"
+                        [disabled]="userForm.invalid"></button>
+                    <button pButton *ngIf="!fieldsDisabled" type="button" label="Salvar" (click)="submitForm()"
+                        [disabled]="userForm.invalid" severity="success"></button>
+                </div>
+                <div class="field col">
+                    <button pButton type="button" label="Limpar" [disabled]="fieldsDisabled" (click)="clearForm()"
+                        severity="contrast"></button>
+                </div>
+            </div>
         </p-panel>
     </form>
 
